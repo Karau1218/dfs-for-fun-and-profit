@@ -70,10 +70,36 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    Set<Vertex<Integer>> seen = new HashSet<>();
+    return reachable(Vertex, seen);
+  }
+  public int max(Vertex<Integer> vertex, Set<Vertex<Integer>> seen){
+    if(Vertex == null) return seen;
+    if(seen.contains(Vertex)) return seen;
+
+    seen.add(vertex);
+
+    int maxNum = 0;
+
+    for (Vertex num : seen ) {
+      if ( num.data > maxNum.data) {
+        maxNum = num;
+      }
+    }
+    
+
+    for(Vertex<> neighbor: Vertex.neighbors){
+      reachable(neighbor, seen);
+    }
+  
+
+  
+    return maxNum;
+
+  
   }
 
-  /**
+  /** -> Fred
    * Returns a set of all leaf vertices reachable from the given starting vertex.
    * A vertex is considered a leaf if it has no outgoing edges (no neighbors).
    *
@@ -89,7 +115,7 @@ public class Practice {
   }
 
 
-  /**
+  /** --> Orion
    * Returns whether all reachable vertices (including the starting vertex) hold
    * odd values. Returns false if at least one reachable vertex (including the starting vertex)
    * holds an even value.
@@ -103,7 +129,7 @@ public class Practice {
     return true;
   }
 
-  /**
+  /** --> Fred
    * Determines whether there exists a strictly increasing path from the given start vertex
    * to the target vertex.
    *
