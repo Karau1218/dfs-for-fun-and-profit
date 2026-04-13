@@ -53,6 +53,7 @@ public class Practice {
     if(seen.contains(vertex)) return seen;
 
     seen.add(vertex);
+    
 
     for(Vertex<T> neighbor: vertex.neighbors){
       reachable(neighbor, seen);
@@ -85,7 +86,24 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> seen = new HashSet<>();
+    Set<Vertex<T>> leaves = new HashSet<>();
+    leaves(vertex, seen, leaves);
+    return leaves;
+  }
+  public <T> void leaves(Vertex<T> vertex, Set<Vertex<T>> seen, Set<Vertex<T>> leaves){
+    if(vertex == null) return;
+    if(seen.contains(vertex)) return;
+
+    seen.add(vertex);
+
+    if(vertex.neighbors.isEmpty()){
+      leaves.add(vertex);
+    }else{
+      for(Vertex<T> neighbor: vertex.neighbors){
+        leaves(neighbor, seen, leaves);
+      }
+    }
   }
 
 
