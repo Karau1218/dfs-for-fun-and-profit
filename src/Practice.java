@@ -87,11 +87,12 @@ public class Practice {
 
     for (Vertex<Integer> neighbor: vertex.neighbors){
       int neighborMax = maxHelper(neighbor, seen);
+      maxVal = Math.max(maxVal, neighborMax);
     }
     return maxVal;
   }
 
-  /** -> Fred
+  /**
    * Returns a set of all leaf vertices reachable from the given starting vertex.
    * A vertex is considered a leaf if it has no outgoing edges (no neighbors).
    *
@@ -124,7 +125,7 @@ public class Practice {
   }
 
 
-  /** --> Orion
+  /** 
    * Returns whether all reachable vertices (including the starting vertex) hold
    * odd values. Returns false if at least one reachable vertex (including the starting vertex)
    * holds an even value.
@@ -135,10 +136,29 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    if (vertex == null) return true;
+
+    Set<Vertex<Integer>> seen = new HashSet<>();
+    return allOddHelper(vertex, seen);
+  }
+  private boolean allOddHelper(Vertex<Integer> vertex, Set<Vertex<Integer>> seen) {
+    if (vertex == null || seen.contains(vertex)) {
+        return true;
+    }
+    seen.add(vertex);
+
+    if (vertex.data % 2 == 0) {
+      return false;
+    }
+    for (Vertex<Integer> neighbor : vertex.neighbors) {
+      if (!allOddHelper(neighbor, seen)) {
+        return false;
+      }
+    }
     return true;
   }
 
-  /** --> Fred
+  /** 
    * Determines whether there exists a strictly increasing path from the given start vertex
    * to the target vertex.
    *
@@ -152,18 +172,30 @@ public class Practice {
    * @return True if a strictly increasing path exists, false otherwise.
    * @throws NullPointerException if either start or end is null.
    */
-  public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+ public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+    if (start == null || end == null) {
+        throw new NullPointerException();
+    }
+
     Set<Vertex<Integer>> seen = new HashSet<>();
     return hasStrictlyIncreasingPath(start, end, seen);
-  }
-  public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end, Set<Vertex<Integer>> seen) {
-    if (start == null || end == null){ throw new NullPointerException(); }
-    if(seen.contains(start)) { return false; }else{seen.add(start);}
-    if(start == end){ return true; }
-    if(seen.)
-    for(Vertex<Integer> neighbor: start.neighbors){
-      return hasStrictlyIncreasingPath(neighbor, end, seen);
+}
+
+private boolean hasStrictlyIncreasingPath(Vertex<Integer> current,Vertex<Integer> end, Set<Vertex<Integer>> seen) {
+    if (seen.contains(current)) return false;
+    if (current == end) return true;
+    
+
+    seen.add(current);
+
+    for (Vertex<Integer> neighbor : current.neighbors) {
+        if (neighbor.data > current.data) {
+            if (hasStrictlyIncreasingPath(neighbor, end, seen)) {
+                return true;
+            }
+        }
     }
+
     return false;
-  }
+}
 }
